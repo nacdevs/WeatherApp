@@ -17,7 +17,6 @@ struct CityView: View {
     var body: some View {
         ScrollView{
             VStack(spacing: 24) {
-
                 // City & coordinates
                 VStack(spacing: 4) {
                     Text(viewModel.response?.name ?? "")
@@ -31,7 +30,7 @@ struct CityView: View {
                 
                 WeatherIconView(weather: viewModel.response?.weather.first)
 
-                // Current temperature (main focus)
+                // Current temperature
                 Text(String(format: "%.1f°",viewModel.response?.main.temp ?? 0))
                     .font(.system(size: 72, weight: .bold))
                     .padding(.vertical)
@@ -63,11 +62,9 @@ struct CityView: View {
                         systemImage: "sunset.fill"
                     )
                 }
-
                 Spacer()
             }
         }
-       
         .padding()
         .alert(isPresented: self.$showAlert) {
             Alert(title: Text(self.error),dismissButton: .default(Text("Got it!")))

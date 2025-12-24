@@ -1,0 +1,26 @@
+//
+//  Localizable.strings
+//  WeatherApp
+//
+//  Created by Nestor Camela on 24/12/2025.
+//
+
+// Weather 
+"weather.title" = "Weather";
+"weather.min" = "Min";
+"weather.max" = "Max";
+"weather.sunrise" = "Sunrise";
+"weather.sunset" = "Sunset";
+"weather.humidity" = "Humidity";
+
+// Errors
+"error.generic" = "Something went wrong. Please try again.";
+"error.no.internet.title" = "No Internet Connection";
+"error.no.internet.description" = "Please check your network settings and try again.";
+
+//Button texts
+"alert.gotIt" = "Got it";
+
+//Location
+"location.wait" = "Getting Location...";
+"location.noAuth" = "Location permission not granted\nTap here to allow location.";

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CityView: View {
-
     @StateObject var viewModel = ViewModel()
     @State private var showAlert = false
     @State private var error = "Default"
@@ -22,6 +21,7 @@ struct CityView: View {
                     Text(viewModel.response?.name ?? "")
                         .font(.title)
                         .fontWeight(.semibold)
+                        .foregroundColor(.primary)
 
                     Text("Lat \(city.coord.lat), Lon \(city.coord.lon)")
                         .font(.caption)
@@ -34,11 +34,12 @@ struct CityView: View {
                 Text(String(format: "%.1f°",viewModel.response?.main.temp ?? 0))
                     .font(.system(size: 72, weight: .bold))
                     .padding(.vertical)
+                    .foregroundColor(.primary)
 
                 // Min / Max
                 HStack(spacing: 32) {
-                    TempItem(title: "Min", value: viewModel.response?.main.tempMin ?? 0)
-                    TempItem(title: "Max", value: viewModel.response?.main.tempMax ?? 0)
+                    TempItem(title: LocalizedStrings.min, value: viewModel.response?.main.tempMin ?? 0)
+                    TempItem(title: LocalizedStrings.max, value: viewModel.response?.main.tempMax ?? 0)
                 }
 
                 Divider()
@@ -47,7 +48,7 @@ struct CityView: View {
                 // Sunrise / Sunset
                 HStack(spacing: 40) {
                     SunItem(
-                        title: "Sunrise",
+                        title: LocalizedStrings.sunrise,
                         time: viewModel.response?.sys.sunrise.toHourMinute(
                             timezoneOffset: viewModel.response?.timezone ?? 0
                         ) ?? "",
@@ -55,7 +56,7 @@ struct CityView: View {
                     )
 
                     SunItem(
-                        title: "Sunset",
+                        title: LocalizedStrings.sunset,
                         time: viewModel.response?.sys.sunset.toHourMinute(
                             timezoneOffset: viewModel.response?.timezone ?? 0
                         ) ?? "",
@@ -67,7 +68,7 @@ struct CityView: View {
         }
         .padding()
         .alert(isPresented: self.$showAlert) {
-            Alert(title: Text(self.error),dismissButton: .default(Text("Got it!")))
+            Alert(title: Text(self.error),dismissButton: .default(Text(LocalizedStrings.alertGotIt)))
         }
         .task {
             await callVM()
@@ -77,12 +78,15 @@ struct CityView: View {
         }
     }
     
+    
     func callVM() async{
         do{
             try await viewModel.getWeather(coord: city.coord)
         }catch{
-            self.error = error.localizedDescription
-            self.showAlert = true
+            if(error is NetworkUseCase) {
+                self.error = error.localizedDescription
+                self.showAlert = true
+            }
         }
     }
 }

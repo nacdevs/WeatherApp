@@ -10,6 +10,7 @@ import SwiftUI
 struct WeatherIconView: View {
 
     let weather: Weather?
+    @State private var isVisible = false
 
     private var iconURL: URL? {
         guard let icon = weather?.icon else { return nil }
@@ -27,6 +28,13 @@ struct WeatherIconView: View {
                         image
                             .resizable()
                             .scaledToFit()
+                            .opacity(isVisible ? 1 : 0)
+                            .offset(y: isVisible ? 0 : 12)
+                            .onAppear {
+                                withAnimation(.easeOut(duration: 0.5)) {
+                                            isVisible = true
+                                }
+                            }
                     case .failure:
                         fallbackIcon
                     @unknown default:
@@ -37,7 +45,7 @@ struct WeatherIconView: View {
                 fallbackIcon
             }
         }
-        .frame(width: 100, height: 100)
+        .frame(width: 120, height: 120)
     }
 
     private var fallbackIcon: some View {

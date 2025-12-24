@@ -19,7 +19,6 @@ struct WeatherAppApp: App {
                 
             ])
             .environmentObject(networkMonitor)
-          //  ContentView(city: City(name: "Buenos Aires", coord: CLLocationCoordinate2D(latitude: -34.6036232292415, longitude: -58.38166983895168)))
         }
     }
 }

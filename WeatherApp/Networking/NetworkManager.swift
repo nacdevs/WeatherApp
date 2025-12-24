@@ -7,29 +7,16 @@
 
 import Foundation
 
-enum NetworkUseCase: Error, Equatable {
-    case networkError
-    case notAuth
-    case parseError
-    case badURL
-}
-
-struct AppConstants {
-    static let apiBaseURL = "https://api.openweathermap.org/data/2.5/"
-    static let apiKey = Bundle.main.infoDictionary?["API_KEY"] as? String ?? "" // Should go on FastLane FastFile but POC.
-}
-
 struct NetworkManager<T: Codable> {
-    static func getData(_ url: String) async throws -> T {
+    static func getData(path: String, queryParams: [URLQueryItem]) async throws -> T {
         do {
-            guard let fullURL = URL(string: AppConstants.apiBaseURL + url + AppConstants.apiKey) else{
+            guard let fullURL = createAPIURL(path: path, queryParams: queryParams) else{
                 throw NetworkUseCase.badURL
             }
             let (data, response) = try await URLSession.shared.data(from: fullURL)
-            print(fullURL)
             guard let res = response as? HTTPURLResponse else { throw NetworkUseCase.networkError }
             print(res.statusCode)
-            guard res.statusCode >= 200 && res.statusCode < 300 else { throw NetworkUseCase.notAuth }
+            guard res.statusCode >= 200 && res.statusCode < 300 else { throw NetworkUseCase.notAuthorized }
             guard let decodedResponse = try? JSONDecoder().decode(T.self, from: data) else { throw NetworkUseCase.parseError }
             return decodedResponse
         } catch {
@@ -37,4 +24,26 @@ struct NetworkManager<T: Codable> {
             throw error
         }
     }
+    
+    private static func createAPIURL(path: String, queryParams: [URLQueryItem]?) -> URL? {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = AppConstants.apiBaseURL
+        components.path = "/data/2.5\(path)"
+        components.queryItems = queryParams
+        components.queryItems?.append(URLQueryItem(name: "appid", value: AppConstants.apiKey))
+        
+        return components.url
+    }
+
 }
+
+//Network Errors
+enum NetworkUseCase: Error, Equatable {
+    case networkError
+    case notAuthorized
+    case parseError
+    case badURL
+}
+
+

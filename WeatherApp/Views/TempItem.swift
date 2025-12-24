@@ -19,6 +19,7 @@ struct TempItem: View {
             Text(String(format: "%.1f°",value))
                 .font(.title2)
                 .fontWeight(.medium)
+                .foregroundColor(.primary)
         }
     }
 }

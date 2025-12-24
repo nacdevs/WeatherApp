@@ -23,38 +23,22 @@ extension Int {
     }
 }
 
-extension String {
-
-    /// SF Symbol recomendado por Apple para el estado actual
-    var sfSymbolName: String {
-        switch self.lowercased() {
-
-        case "clear":
-            return "sun.max"
-
-        case "clouds":
-            return "cloud"
-
-        case "rain":
-            return "cloud.rain.fill"
-
-        case "drizzle":
-            return "cloud.drizzle.fill"
-
-        case "thunderstorm":
-            return "cloud.bolt.rain.fill"
-
-        case "snow":
-            return "snow"
-
-        case "mist", "fog", "haze", "smoke", "dust", "sand", "ash":
-            return "cloud.fog.fill"
-
-        case "squall", "tornado":
-            return "tornado"
-
-        default:
-            return "cloud"
-        }
-    }
+enum LocalizedStrings {
+    static let weatherTitle = NSLocalizedString("weather.title", comment: "")
+    static let min = NSLocalizedString("weather.min", comment: "")
+    static let max = NSLocalizedString("weather.max", comment: "")
+    static let sunrise = NSLocalizedString("weather.sunrise", comment: "")
+    static let sunset = NSLocalizedString("weather.sunset", comment: "")
+    
+    
+///MARK:  Errors
+    static let noInternetTitle = NSLocalizedString("error.no.internet.title", comment: "")
+    static let noInternetDescription = NSLocalizedString("error.no.internet.description", comment: "")
+    
+///MARK:  Buttons
+    static let alertGotIt = NSLocalizedString("alert.gotIt", comment: "")
+    
+///MARK: Locations
+    static let waitLocation = NSLocalizedString("location.wait", comment: "")
+    static let locationNoAuth = NSLocalizedString("location.noAuth", comment: "")
 }

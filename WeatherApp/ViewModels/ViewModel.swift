@@ -13,7 +13,10 @@ class ViewModel: ObservableObject{
     @MainActor
     func getWeather(coord: Coord) async throws  {
         do{
-            let data = try await NetworkManager<Response>.getData("weather?lat=\(coord.lat)&lon=\(coord.lon)&units=metric")
+            let queryParams = [URLQueryItem(name: "lat", value: "\(coord.lat)"),
+                               URLQueryItem(name: "lon", value: "\(coord.lon)"),
+                               URLQueryItem(name: "units", value: "metric")]
+            let data = try await NetworkManager<Response>.getData(path: "/weather", queryParams: queryParams)
             self.response = data
         }catch{
             print(error)

@@ -82,6 +82,7 @@ struct Sys: Codable {
 
 struct City: Codable{
     let coord: Coord
+    var isCurrentLocation: Bool = false
 }
 
 struct Coord: Codable {

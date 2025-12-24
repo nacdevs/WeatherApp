@@ -22,6 +22,7 @@ struct SunItem: View {
 
             Text(time)
                 .font(.headline)
+                .foregroundColor(.primary)
         }
     }
 }

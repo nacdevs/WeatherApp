@@ -26,9 +26,12 @@ struct WeatherAppTests {
     @Test("Testing not Auth URL")
     func testNot200() async throws {
         do {
-            _ = try await NetworkManager<Response>.getData("notAuthURL")
+            let queryParams = [URLQueryItem(name: "lat", value: "\(-34.6036232292415)"),
+                               URLQueryItem(name: "lon", value: "\(-58.38166983895168)"),
+                               URLQueryItem(name: "units", value: "metric")]
+            _ = try await NetworkManager<Response>.getData(path: "notAuthURL", queryParams: queryParams)
         } catch {
-            #expect(error as? NetworkUseCase == NetworkUseCase.notAuth)
+            #expect(error as? NetworkUseCase == NetworkUseCase.notAuthorized)
         }
         
     }
